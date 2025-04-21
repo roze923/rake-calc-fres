@@ -90,7 +90,6 @@ def index():
                 "rakeback": rakeback
             }
 
-            # 履歴保存（最大5件）
             history.insert(0, {
                 "timestamp": datetime.now().strftime("%m/%d %H:%M"),
                 "total_cost": total_cost,
