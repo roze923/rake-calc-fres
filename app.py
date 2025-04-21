@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template_string
+import os
 
 app = Flask(__name__)
 
@@ -44,7 +45,6 @@ def index():
             entry_count = int(request.form["entry_count"])
             total_cost = entry_fee * entry_count
 
-            # 賞金総額を手入力 or チケットで換算
             if request.form["total_prize"]:
                 prize_total = int(request.form["total_prize"])
             else:
@@ -65,6 +65,5 @@ def index():
     return render_template_string(HTML, result=result)
 
 if __name__ == "__main__":
-    # Render用にホストとポートを明示的に指定
-    app.run(host="0.0.0.0", port=10000, debug=True)
-
+    port = int(os.environ.get("PORT", 5000))  # ←ここがRender対応ポイント！
+    app.run(host="0.0.0.0", port=port, debug=True)
