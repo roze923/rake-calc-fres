@@ -27,9 +27,7 @@ HTML = """<!doctype html>
       エントリー数:<br><input name="entry_count" type="number" required><br>
       賞金総額（円・任意）:<br><input name="total_prize" type="number"><br>
       チケット枚数（任意）:<br><input name="ticket_count" type="number"><br>
-      1チケットの価値（円）:<br><input name="ticket_value" type="number" value="20000"><br>
       レイク（%）:<br><input name="rake_percent" type="number" value="0"><br>
-      税（%）:<br><input name="tax_percent" type="number" value="0"><br>
       <h3>チケット比較（任意）</h3>
       チケット取得単価（円）:<br><input name="ticket_cost" type="number"><br>
       チケット使用枚数:<br><input name="ticket_use" type="number"><br>
@@ -40,7 +38,7 @@ HTML = """<!doctype html>
     <div class="result">
       <p><strong>総参加費:</strong> {{ result.total_cost }} 円</p>
       <p><strong>賞金総額:</strong> {{ result.prize_total }} 円</p>
-      <p><strong>控除後（レイク+税）:</strong> {{ result.adjusted_prize }} 円</p>
+      <p><strong>控除後（レイク）:</strong> {{ result.adjusted_prize }} 円</p>
       <p><strong>現金エントリー還元率:</strong> {{ result.cash_rakeback }} %</p>
       {% if result.ticket_rakeback is not none %}
       <p><strong>チケットエントリー還元率:</strong> {{ result.ticket_rakeback }} %</p>
@@ -80,13 +78,12 @@ def index():
                 prize_total += int(prize_total_input)
 
             ticket_count = int(request.form.get("ticket_count", 0))
-            ticket_value = int(request.form.get("ticket_value", 20000))
+            ticket_value = 20000  # 固定値として使用
             if ticket_count > 0:
                 prize_total += ticket_count * ticket_value
 
             rake_percent = float(request.form.get("rake_percent", 0))
-            tax_percent = float(request.form.get("tax_percent", 0))
-            deductions = prize_total * (rake_percent + tax_percent) / 100
+            deductions = prize_total * rake_percent / 100
             adjusted_prize = prize_total - deductions
 
             cash_rakeback = round((adjusted_prize / total_cost) * 100, 2) if total_cost > 0 else 0.0
