@@ -45,9 +45,9 @@ def index():
             entry_count = int(request.form["entry_count"])
             total_cost = entry_fee * entry_count
 
-            # 優先：賞金総額入力 → なければチケットで計算
+            # 修正点：数値0か空かを確認
             prize_total_input = request.form.get("total_prize", "").strip()
-            if prize_total_input != "":
+            if prize_total_input not in ["", "0", "0.0"]:
                 prize_total = int(prize_total_input)
             else:
                 ticket_count = int(request.form.get("ticket_count", 0))
