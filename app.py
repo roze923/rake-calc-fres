@@ -78,7 +78,7 @@ def index():
                 prize_total += int(prize_total_input)
 
             ticket_count = int(request.form.get("ticket_count", 0))
-            ticket_value = 20000  # 固定値として使用
+            ticket_value = 20000  # 固定
             if ticket_count > 0:
                 prize_total += ticket_count * ticket_value
 
@@ -88,7 +88,7 @@ def index():
 
             cash_rakeback = round((adjusted_prize / total_cost) * 100, 2) if total_cost > 0 else 0.0
 
-            # チケット比較用
+            # チケット比較
             ticket_rakeback = None
             try:
                 ticket_cost = float(request.form.get("ticket_cost", 0))
